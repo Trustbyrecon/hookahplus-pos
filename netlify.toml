@@ -1,6 +1,5 @@
 [build]
   publish = "app/dashboard"
-  command = ""
 
 [functions]
   directory = "netlify/functions"
