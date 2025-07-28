@@ -1,7 +1,6 @@
 [build]
-  base = "app/dashboard"
-  publish = "dist"
-  command = "npm run build"
+  publish = "app/dashboard"
+  command = ""
 
 [functions]
   directory = "netlify/functions"

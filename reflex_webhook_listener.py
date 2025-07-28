@@ -67,5 +67,15 @@ def aliethia_hook():
 
     return jsonify({"status": "reflex executed", "trigger": trigger}), 200
 
+
+@app.route("/trustgraph/<lounge_id>", methods=["GET"])
+def get_trust_graph(lounge_id):
+    log_file = os.path.join("trustgraph_logs", f"{lounge_id}_trustgraph.jsonl")
+    entries = []
+    if os.path.exists(log_file):
+        with open(log_file) as f:
+            entries = [json.loads(line) for line in f if line.strip()]
+    return jsonify(entries), 200
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
