@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import subprocess
 import threading
 import datetime
@@ -66,6 +66,16 @@ def aliethia_hook():
         return jsonify({"status": "unknown trigger"}), 400
 
     return jsonify({"status": "reflex executed", "trigger": trigger}), 200
+
+
+@app.route("/dashboard")
+def dashboard():
+    return send_from_directory("app/dashboard", "index.html")
+
+
+@app.route("/preorder")
+def preorder():
+    return send_from_directory("app/dashboard", "preorder.html")
 
 
 @app.route("/trustgraph/<lounge_id>", methods=["GET"])

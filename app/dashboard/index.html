@@ -30,6 +30,9 @@
   document.getElementById('close-whisper').onclick = () => {
     document.getElementById('whisper-journal').style.display = 'none';
   };
+  if (new URLSearchParams(window.location.search).get('loyalty') === '1') {
+    document.getElementById('whisper-journal').style.display = 'block';
+  }
 </script>
 </body>
 </html>
