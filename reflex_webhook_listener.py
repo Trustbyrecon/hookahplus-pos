@@ -7,8 +7,19 @@ import os
 
 app = Flask(__name__)
 
+# Flag controlling whether trust graph events are written to disk
+ENABLE_TRUSTGRAPH_LOGGING = True
+
+def enable_trustgraph_logging(enable: bool = True):
+    """Toggle trust graph logging."""
+    global ENABLE_TRUSTGRAPH_LOGGING
+    ENABLE_TRUSTGRAPH_LOGGING = enable
+
 # Write Trust Graph log
 def update_trust_graph(lounge_id, trigger, context={}):
+    if not ENABLE_TRUSTGRAPH_LOGGING:
+        return
+
     log_dir = "trustgraph_logs"
     os.makedirs(log_dir, exist_ok=True)
     log_file = os.path.join(log_dir, f"{lounge_id}_trustgraph.jsonl")

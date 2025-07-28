@@ -1,7 +1,8 @@
 import json
-from reflex_webhook_listener import update_trust_graph, seed_whisper
+from reflex_webhook_listener import update_trust_graph, seed_whisper, enable_trustgraph_logging
 
 def handler(event, context):
+    enable_trustgraph_logging(True)
     if event.get("httpMethod") != "POST":
         return {"statusCode": 405, "body": "Method Not Allowed"}
 
