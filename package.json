@@ -1,0 +1,7 @@
+{
+  "name": "hookahplus-pos",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "mkdir -p dist && cp -r app/dashboard/* dist/"
+  }
+}
