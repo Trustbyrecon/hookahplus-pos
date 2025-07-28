@@ -8,7 +8,9 @@ import os
 app = Flask(__name__)
 
 # Write Trust Graph log
-def update_trust_graph(lounge_id, trigger, context={}):
+def update_trust_graph(lounge_id, trigger, context=None):
+    if context is None:
+        context = {}
     log_dir = "trustgraph_logs"
     os.makedirs(log_dir, exist_ok=True)
     log_file = os.path.join(log_dir, f"{lounge_id}_trustgraph.jsonl")
@@ -26,7 +28,9 @@ def update_trust_graph(lounge_id, trigger, context={}):
     print(f"🧭 TrustGraph updated: {entry}")
 
 # Background worker
-def run_codex_script(script_path, args=[]):
+def run_codex_script(script_path, args=None):
+    if args is None:
+        args = []
     try:
         subprocess.run(['python', script_path] + args, check=True)
     except subprocess.CalledProcessError as e:
@@ -57,11 +61,11 @@ def aliethia_hook():
 
     # Logic routes
     if trigger == "drift":
-        threading.Thread(target=run_codex_script, args=["flavor_sync.py", [lounge_id]]).start()
+        threading.Thread(target=run_codex_script, args=("flavor_sync.py", [lounge_id])).start()
     elif trigger == "loyalty":
-        threading.Thread(target=run_codex_script, args=["loyalty_reflex.py", [session_id]]).start()
+        threading.Thread(target=run_codex_script, args=("loyalty_reflex.py", [session_id])).start()
     elif trigger == "suggest_mix":
-        threading.Thread(target=run_codex_script, args=["reflex_session.py", [user_id, base_flavor]]).start()
+        threading.Thread(target=run_codex_script, args=("reflex_session.py", [user_id, base_flavor])).start()
     else:
         return jsonify({"status": "unknown trigger"}), 400
 
