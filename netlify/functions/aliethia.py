@@ -1,5 +1,5 @@
 import json
-from reflex_webhook_listener import update_trust_graph
+from reflex_webhook_listener import update_trust_graph, seed_whisper
 
 def handler(event, context):
     if event.get("httpMethod") != "POST":
@@ -24,6 +24,9 @@ def handler(event, context):
         "user_id": user_id,
         "base_flavor": base_flavor,
     })
+
+    if trigger == "loyalty":
+        seed_whisper(lounge_id, f"Loyalty replay for session {session_id}")
 
     return {
         "statusCode": 200,

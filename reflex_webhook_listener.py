@@ -25,6 +25,23 @@ def update_trust_graph(lounge_id, trigger, context={}):
 
     print(f"🧭 TrustGraph updated: {entry}")
 
+# Seed a Whisper message for loyalty replay
+def seed_whisper(lounge_id, message):
+    log_dir = "whisper_seeds"
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, f"{lounge_id}_whispers.jsonl")
+
+    entry = {
+        "timestamp": datetime.datetime.utcnow().isoformat(),
+        "lounge_id": lounge_id,
+        "message": message,
+    }
+
+    with open(log_file, "a") as f:
+        f.write(json.dumps(entry) + "\n")
+
+    print(f"\U0001F5E3 Whisper seeded: {entry}")
+
 # Background worker
 def run_codex_script(script_path, args=[]):
     try:
@@ -60,6 +77,7 @@ def aliethia_hook():
         threading.Thread(target=run_codex_script, args=["flavor_sync.py", [lounge_id]]).start()
     elif trigger == "loyalty":
         threading.Thread(target=run_codex_script, args=["loyalty_reflex.py", [session_id]]).start()
+        seed_whisper(lounge_id, f"Loyalty replay for session {session_id}")
     elif trigger == "suggest_mix":
         threading.Thread(target=run_codex_script, args=["reflex_session.py", [user_id, base_flavor]]).start()
     else:
@@ -76,6 +94,16 @@ def dashboard():
 @app.route("/preorder")
 def preorder():
     return send_from_directory("app/dashboard", "preorder.html")
+
+
+@app.route("/whisper/<lounge_id>", methods=["GET"])
+def get_whispers(lounge_id):
+    log_file = os.path.join("whisper_seeds", f"{lounge_id}_whispers.jsonl")
+    entries = []
+    if os.path.exists(log_file):
+        with open(log_file) as f:
+            entries = [json.loads(line) for line in f if line.strip()]
+    return jsonify(entries), 200
 
 
 @app.route("/trustgraph/<lounge_id>", methods=["GET"])
