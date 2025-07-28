@@ -47,6 +47,26 @@ def injectWhisperOverlay(loyaltyOnly=True):
     dashboard_path.write_text(html)
     print("Whisper overlay injected")
 
+def pushLiveUI(site):
+    """Deploy the dashboard using netlify-cli."""
+    import subprocess
+    cmd = [
+        "netlify",
+        "deploy",
+        "--prod",
+        f"--dir={Path('app/dashboard')}",
+        "--site",
+        site,
+    ]
+    try:
+        subprocess.run(cmd, check=True)
+    except FileNotFoundError:
+        print(
+            "netlify CLI not found. Install with `npm install -g netlify-cli` and login first."
+        )
+    except subprocess.CalledProcessError as e:
+        print("Deployment failed", e)
+
 if __name__ == '__main__':
     enableTrustGraphLogging(True)
     activateWebhookEndpoint()
