@@ -38,3 +38,14 @@ This will serve the contents of `app/dashboard` and emulate function calls from 
 3. Netlify will run `npm run build` and deploy the contents of `dist`.
 
 Feel free to replace the placeholder files with your actual dashboard code and functions.
+
+## Testing Loyalty Flow
+
+You can simulate the loyalty trigger locally using the included helper script:
+
+```bash
+python loyalty_replay_simulation.py
+```
+
+The script posts a sample payload to the webhook and invokes `loyalty_reflex.py`,
+allowing you to verify the reflex flow without deploying.
