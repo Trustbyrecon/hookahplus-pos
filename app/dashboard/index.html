@@ -48,5 +48,15 @@
     document.getElementById('whisper-journal').style.display = 'block';
   }
 </script>
+
+  <!-- WHISPER_OVERLAY -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('loyalty') === '1') {
+        document.getElementById('show-whisper').click();
+      }
+    });
+  </script>
 </body>
 </html>
