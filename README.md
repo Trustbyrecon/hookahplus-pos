@@ -39,6 +39,21 @@ This will serve the contents of `app/dashboard` and emulate function calls from 
 
 Feel free to replace the placeholder files with your actual dashboard code and functions.
 
+## Deployment Script
+
+The `scripts` directory includes a helper CLI (`commandLauncher.ts`) which exposes
+various deployment commands. The most common is `deployOperatorDashboard`, which
+builds the dashboard and publishes it using the Netlify CLI.
+
+Run it with:
+
+```bash
+npx ts-node scripts/commandLauncher.ts deployOperatorDashboard
+```
+
+Ensure you have the Netlify CLI installed and are authenticated before running
+the command.
+
 ## Testing Loyalty Flow
 
 You can simulate the loyalty trigger locally using the included helper script:
