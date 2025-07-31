@@ -5,3 +5,14 @@
 
 [functions]
   directory = "netlify/functions"
+
+
+[build]
+base = "reflexive-ui"
+publish = "reflexive-ui/dist"
+command = "npm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
