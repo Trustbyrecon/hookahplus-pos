@@ -1,0 +1,5 @@
+{"timestamp": "2025-07-28T18:08:27.633460", "lounge_id": "lounge_001", "trigger": "drift", "context": {"session_id": "sess-001", "user_id": "user-001", "base_flavor": "mint"}}
+{"timestamp": "2025-07-28T18:08:27.633767", "lounge_id": "lounge_001", "trigger": "loyalty", "context": {"session_id": "sess-001", "user_id": "user-001", "base_flavor": "mint"}}
+{"timestamp": "2025-07-28T19:47:16.987880", "lounge_id": "lounge_001", "trigger": "drift", "context": {"session_id": "sess-sim", "user_id": "user-sim", "base_flavor": "mint"}}
+{"timestamp": "2025-07-28T19:47:16.988107", "lounge_id": "lounge_001", "trigger": "loyalty", "context": {"session_id": "sess-sim", "user_id": "user-sim", "base_flavor": "mint"}}
+{"timestamp": "2025-07-28T19:47:16.988269", "lounge_id": "lounge_001", "trigger": "suggest_mix", "context": {"session_id": "sess-sim", "user_id": "user-sim", "base_flavor": "mint"}}

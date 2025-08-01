@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>HookahPlus Dashboard</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    #whisper-journal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); color: #fff; padding: 1rem; }
+    #whisper-journal button { position: absolute; top: 1rem; right: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>HookahPlus Dashboard</h1>
+  <section>
+    <h2>Preorder via QR</h2>
+    <img id="qr" alt="Preorder QR Code" />
+  </section>
+  <button id="show-whisper">Open Whisper Journal</button>
+  <div id="whisper-journal">
+    <button id="close-whisper">Close</button>
+    <h2>Whisper Journal</h2>
+    <div id="whisper-messages"></div>
+  </div>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const qrData = window.location.origin + '/preorder';
+  document.getElementById('qr').src = 'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=L|0&chl=' + encodeURIComponent(qrData);
+
+  const lounge = params.get('lounge_id') || 'lounge_001';
+  function loadWhispers() {
+    fetch('/whisper/' + lounge)
+      .then(r => r.json())
+      .then(msgs => {
+        document.getElementById('whisper-messages').innerHTML =
+          msgs.map(m => `<p>${m.message}</p>`).join('') || '<p>No whispers yet.</p>';
+      });
+  }
+
+  document.getElementById('show-whisper').onclick = () => {
+    loadWhispers();
+    document.getElementById('whisper-journal').style.display = 'block';
+  };
+  document.getElementById('close-whisper').onclick = () => {
+    document.getElementById('whisper-journal').style.display = 'none';
+  };
+  if (params.get('loyalty') === '1') {
+    loadWhispers();
+    document.getElementById('whisper-journal').style.display = 'block';
+  }
+</script>
+
+  <!-- WHISPER_OVERLAY -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('loyalty') === '1') {
+        document.getElementById('show-whisper').click();
+      }
+    });
+  </script>
+</body>
+</html>
